@@ -11,7 +11,7 @@
             <tr class="row">
                 @for (var j=0; j<gameSizeWidth; j++)
                 {
-                    <th class="tableCell"> @squareList[i,j].GetSquareValue()</th>
+                    <th class="tableCell" style="@SquareBackgroundColor(squareList[i,j])"> @squareList[i,j].GetSquareValue()</th>
                 }
             </tr>
         }
@@ -39,4 +39,14 @@
         squareList = GM.GetSquareList();
     }
 
+
+    private string SquareBackgroundColor(Square square)
+    {
+        if (!square.clear) { return "background-color: red"; }
+        if (square.nearbyMines == 0) { return ""; }
+        if (square.nearbyMines == 1) { return "background-color: rgb(77, 247, 114)"; }
+        if (square.nearbyMines == 2) { return "background-color: rgb(242, 245, 73)"; }
+        if (square.nearbyMines == 3) { return "background-color: rgb(242, 154, 31)"; }
+        else return "background-color: rgb(252, 89, 71)";
+    }
 }
