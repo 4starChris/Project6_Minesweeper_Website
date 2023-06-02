@@ -1,0 +1,20 @@
+﻿@page "/"
+
+<p> @CurrentText </p>
+
+<button type="button" @onclick="PrintTest">PrintTest</button>
+
+
+
+
+
+@code{
+    GameMaster GM = new GameMaster();
+    private string CurrentText = "Hello World";
+
+    private void PrintTest()
+    {
+        CurrentText = "Test Started";
+        GM.CreateGame();
+    }
+}
