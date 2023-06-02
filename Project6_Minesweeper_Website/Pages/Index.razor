@@ -1,20 +1,42 @@
 ﻿@page "/"
 
-<p> @CurrentText </p>
+@CurrentText
 
-<button type="button" @onclick="PrintTest">PrintTest</button>
+<button type="button" @onclick="InitialiseGame">Create Game</button>
 
+<div id="GameWindow">
+    <table>
+        @for (var i=0; i<gameSizeHeight; i++)
+        {
+            <tr class="row">
+                @for (var j=0; j<gameSizeWidth; j++)
+                {
+                    <th class="tableCell"> @squareList[i,j].GetSquareValue()</th>
+                }
+            </tr>
+        }
+    </table>
 
+</div>
 
 
 
 @code{
     GameMaster GM = new GameMaster();
     private string CurrentText = "Hello World";
+    private int gameSizeHeight;
+    private int gameSizeWidth;
+    private Square[,]? squareList;
 
-    private void PrintTest()
+
+    private void InitialiseGame()
     {
-        CurrentText = "Test Started";
+
         GM.CreateGame();
+
+        gameSizeHeight = GM.GetGameSize()[0];
+        gameSizeWidth = GM.GetGameSize()[1];
+        squareList = GM.GetSquareList();
     }
+
 }

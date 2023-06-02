@@ -31,5 +31,11 @@
                 //explode
             }
         }
+
+        public string GetSquareValue()
+        {
+            if (!clear) { return "B"; }
+            else return nearbyMines.ToString();
+        }
     }
 }

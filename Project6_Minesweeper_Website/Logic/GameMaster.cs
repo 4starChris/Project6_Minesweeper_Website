@@ -53,11 +53,28 @@ namespace Project6_Minesweeper_Website.Logic
                 square.AddMine();
 
                 //Add counter to neighbours
+
                 //Check left
-                if (column > 0) { Squarelist[column - 1, row].AddNearbyMine(); }
+                if (column > 0) { 
+                    Squarelist[column - 1, row].AddNearbyMine(); 
+
+                    //Check top-left
+                    if (row > 0) { Squarelist[column - 1, row - 1].AddNearbyMine(); }
+
+                    //Check bottom-left
+                    if (row < 15) { Squarelist[column -1, row + 1].AddNearbyMine(); }
+                }
 
                 //Check right
-                if (column < 15) { Squarelist[column + 1, row].AddNearbyMine(); }
+                if (column < 15) { 
+                    Squarelist[column + 1, row].AddNearbyMine();
+
+                    //Check top-right
+                    if (row > 0) { Squarelist[column + 1, row - 1].AddNearbyMine(); }
+
+                    //Check bottom-right
+                    if (row < 15) { Squarelist[column + 1, row + 1].AddNearbyMine(); }
+                }
 
                 //Check up
                 if (row > 0) { Squarelist[column, row - 1].AddNearbyMine(); }
@@ -65,8 +82,22 @@ namespace Project6_Minesweeper_Website.Logic
                 //Check down
                 if (row < 15) { Squarelist[column, row + 1].AddNearbyMine(); }
 
+                
+
+
                 i++;
             }
+        }
+
+
+        public int[] GetGameSize()
+        {
+            return new int[] { gameSizeHeight, gameSizeWidth };
+        }
+
+        public Square[,] GetSquareList()
+        {
+            return Squarelist;
         }
     }
 }
