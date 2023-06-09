@@ -6,12 +6,15 @@
 
 <div id="GameWindow">
     <table>
-        @for (var i=0; i<gameSizeHeight; i++)
+        @for (int row=0; row<gameSizeHeight; row++)
         {
             <tr class="row">
-                @for (var j=0; j<gameSizeWidth; j++)
+                @for (int column=0; column<gameSizeWidth; column++)
                 {
-                    <th class="tableCell" style="@SquareBackgroundColor(squareList[i,j])"> @squareList[i,j].GetSquareValue()</th>
+                    int i = column;
+                    int j = row;
+
+                    <th class="tableCell" style="@SquareBackgroundColor(squareList[i,j])" @onclick="(() => CellClicked(i, j))"> @squareList[i,j].GetSquareValue()</th>
                 }
             </tr>
         }
@@ -48,5 +51,10 @@
         if (square.nearbyMines == 2) { return "background-color: rgb(242, 245, 73)"; }
         if (square.nearbyMines == 3) { return "background-color: rgb(242, 154, 31)"; }
         else return "background-color: rgb(252, 89, 71)";
+    }
+
+    private void CellClicked(int column, int row)
+    {
+        
     }
 }
