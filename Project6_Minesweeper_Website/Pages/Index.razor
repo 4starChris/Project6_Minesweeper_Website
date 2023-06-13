@@ -14,7 +14,7 @@
                     int i = column;
                     int j = row;
 
-                    <th class="tableCell" style="@SquareBackgroundColor(squareList[i,j])" @onclick="(() => CellClicked(i, j))"> @squareList[i,j].GetSquareValue()</th>
+                    <td class="tableCell" style="@SquareBackgroundColor(squareList[i,j])" @onclick="(() => CellClicked(i, j))"> @squareList[i,j].GetSquareValue()</td>
                 }
             </tr>
         }
@@ -45,6 +45,7 @@
 
     private string SquareBackgroundColor(Square square)
     {
+        if (square.revealed) { return "background-color: lightblue"; }
         if (!square.clear) { return "background-color: red"; }
         if (square.nearbyMines == 0) { return ""; }
         if (square.nearbyMines == 1) { return "background-color: rgb(77, 247, 114)"; }
@@ -53,8 +54,5 @@
         else return "background-color: rgb(252, 89, 71)";
     }
 
-    private void CellClicked(int column, int row)
-    {
-        
-    }
+    private void CellClicked(int column, int row) => GM.RevealSquare(column, row);
 }

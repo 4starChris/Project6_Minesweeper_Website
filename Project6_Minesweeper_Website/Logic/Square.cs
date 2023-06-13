@@ -5,9 +5,12 @@
         public int nearbyMines { get; set; }
         public bool clear { get; set; }
 
+        public bool revealed { get; set; }
+
         public Square() {
             clear = true; 
             nearbyMines = 0;
+            revealed = false;
         }
 
         public void AddNearbyMine()

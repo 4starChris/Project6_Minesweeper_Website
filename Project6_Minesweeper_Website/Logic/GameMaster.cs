@@ -62,25 +62,25 @@ namespace Project6_Minesweeper_Website.Logic
                     if (row > 0) { Squarelist[column - 1, row - 1].AddNearbyMine(); }
 
                     //Check bottom-left
-                    if (row < 15) { Squarelist[column -1, row + 1].AddNearbyMine(); }
+                    if (row < gameSizeHeight - 1) { Squarelist[column -1, row + 1].AddNearbyMine(); }
                 }
 
                 //Check right
-                if (column < 15) { 
+                if (column < gameSizeWidth - 1) { 
                     Squarelist[column + 1, row].AddNearbyMine();
 
                     //Check top-right
                     if (row > 0) { Squarelist[column + 1, row - 1].AddNearbyMine(); }
 
                     //Check bottom-right
-                    if (row < 15) { Squarelist[column + 1, row + 1].AddNearbyMine(); }
+                    if (row < gameSizeHeight - 1) { Squarelist[column + 1, row + 1].AddNearbyMine(); }
                 }
 
                 //Check up
                 if (row > 0) { Squarelist[column, row - 1].AddNearbyMine(); }
 
                 //Check down
-                if (row < 15) { Squarelist[column, row + 1].AddNearbyMine(); }
+                if (row < gameSizeHeight - 1) { Squarelist[column, row + 1].AddNearbyMine(); }
 
                 
 
@@ -98,6 +98,47 @@ namespace Project6_Minesweeper_Website.Logic
         public Square[,] GetSquareList()
         {
             return Squarelist;
+        }
+
+        public void RevealSquare(int column, int row)
+        {
+            Square square = Squarelist[column, row];
+            if (square.revealed) { return; }
+            
+            square.revealed = true;
+            if (!square.clear) { return; }  //mine explodes 
+            if (square.nearbyMines == 0)
+            {
+                //Check left
+                if (column > 0)
+                {
+                    RevealSquare(column - 1, row);
+
+                    //Check top-left
+                    if (row > 0) { RevealSquare(column - 1, row-1); }
+
+                    //Check bottom-left
+                    if (row < gameSizeHeight - 1) { RevealSquare(column - 1, row+1); }
+                }
+
+                //Check right
+                if (column < gameSizeWidth - 1)
+                {
+                    RevealSquare(column +1, row);
+
+                    //Check top-right
+                    if (row > 0) { RevealSquare(column + 1, row-1); }
+
+                    //Check bottom-right
+                    if (row < gameSizeHeight - 1) { RevealSquare(column + 1, row+1); }
+                }
+
+                //Check up
+                if (row > 0) { RevealSquare(column , row -1); }
+
+                //Check down
+                if (row < gameSizeHeight - 1) { RevealSquare(column, row + 1); }
+            }
         }
     }
 }
