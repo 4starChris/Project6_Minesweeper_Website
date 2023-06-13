@@ -45,7 +45,7 @@
 
     private string SquareBackgroundColor(Square square)
     {
-        if (square.revealed) { return "background-color: lightblue"; }
+        if (!square.revealed) { return "background-color: lightgrey"; }
         if (!square.clear) { return "background-color: red"; }
         if (square.nearbyMines == 0) { return ""; }
         if (square.nearbyMines == 1) { return "background-color: rgb(77, 247, 114)"; }

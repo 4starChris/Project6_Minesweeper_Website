@@ -37,6 +37,7 @@
 
         public string GetSquareValue()
         {
+            if (!revealed) { return ""; }
             if (!clear) { return "B"; }
             else return nearbyMines.ToString();
         }
