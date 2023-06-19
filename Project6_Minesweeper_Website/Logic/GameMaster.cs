@@ -9,7 +9,9 @@ namespace Project6_Minesweeper_Website.Logic
         private int gameSizeWidth = 16; 
         private int gameSizeHeight = 16;
         private int numberOfMines = 40;
-        public int numberOfFlagsOnHand = 10;
+        public int numberOfFlagsOnHand = 40;
+        public string gameMessage;
+        private bool lockGame;
 
 
         public GameMaster() { }
@@ -17,7 +19,8 @@ namespace Project6_Minesweeper_Website.Logic
         public void CreateGame()
         {
             Squarelist = new Square[gameSizeHeight, gameSizeWidth];
-
+            lockGame = false;
+            UpdateGameMessage();
             int row = 0;
             int column = 0;
             while (row < gameSizeHeight)
@@ -103,12 +106,17 @@ namespace Project6_Minesweeper_Website.Logic
 
         public void RevealSquare(int column, int row)
         {
+            if (lockGame) { return; }
             Square square = Squarelist[column, row];
             if (square.revealed) { return; }
             if (square.flagged) { return; }
             
             square.revealed = true;
-            if (!square.clear) { return; }  //mine explodes 
+            if (!square.clear) {
+                gameMessage = "You Lose!";
+                LockGame();
+                return; 
+            } 
             if (square.nearbyMines == 0)
             {
                 //Check left
@@ -145,10 +153,46 @@ namespace Project6_Minesweeper_Website.Logic
 
         public void PlaceFlag(int column, int row)
         {
+            if (lockGame) { return; }
             Square square = Squarelist[column, row];
             if (square.revealed) { return; }
-            if (!square.flagged && numberOfFlagsOnHand > 0) { square.flagged = true; numberOfFlagsOnHand--; return; }
-            if (square.flagged) { square.flagged = false; numberOfFlagsOnHand++; }
+            if (!square.flagged && numberOfFlagsOnHand > 0) { 
+                square.flagged = true; 
+                numberOfFlagsOnHand--;
+                UpdateGameMessage();
+                if (numberOfFlagsOnHand == 0)
+                {
+                    CheckWinCondition();
+                }
+
+                return; }
+            if (square.flagged) { square.flagged = false; numberOfFlagsOnHand++; UpdateGameMessage(); }
+            return;
+        }
+
+        private void UpdateGameMessage()
+        {
+            gameMessage = "Flags Left: " + numberOfFlagsOnHand;
+        }
+
+        private void CheckWinCondition()
+        {
+            int minesExposed = numberOfMines;
+            foreach (Square square in Squarelist)
+            {
+                if (square.flagged && !square.clear) { minesExposed--; }
+            }
+            if (minesExposed == 0)
+            {
+                gameMessage = "You Win!";
+                LockGame();
+            }
+            return;
+        }
+
+        private void LockGame()
+        {
+            lockGame = true;
             return;
         }
     }

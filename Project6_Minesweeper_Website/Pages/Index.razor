@@ -6,8 +6,8 @@
 
 <div id="GameWindow" @oncontextmenu:preventDefault="true">
     <div>
-        @if (gameInitialised) { flagsText = "Flags left: " + GM.numberOfFlagsOnHand; }
-        @flagsText
+        @if (gameInitialised) { gameMessage = GM.gameMessage; }
+        @gameMessage
     </div>
     <table>
         @for (int row=0; row<gameSizeHeight; row++)
@@ -35,7 +35,8 @@
     private int gameSizeWidth;
     private Square[,]? squareList;
     private bool gameInitialised = false;
-    private string flagsText;
+    private string gameMessage;
+
 
     private void InitialiseGame()
     {
