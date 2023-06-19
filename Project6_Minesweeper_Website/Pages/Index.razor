@@ -4,7 +4,11 @@
 
 <button type="button" @onclick="InitialiseGame">Create Game</button>
 
-<div id="GameWindow">
+<div id="GameWindow" @oncontextmenu:preventDefault="true">
+    <div>
+        @if (gameInitialised) { flagsText = "Flags left: " + GM.numberOfFlagsOnHand; }
+        @flagsText
+    </div>
     <table>
         @for (int row=0; row<gameSizeHeight; row++)
         {
@@ -14,7 +18,7 @@
                     int i = column;
                     int j = row;
 
-                    <td class="tableCell" style="@SquareBackgroundColor(squareList[i,j])" @onclick="(() => CellClicked(i, j))"> @squareList[i,j].GetSquareValue()</td>
+                    <td class="tableCell" style="@SquareBackgroundColor(squareList[i,j])" @onclick="(() => CellClicked(i, j))" @oncontextmenu="(() => RightClick(i,j))" @oncontextmenu:preventDefault="true"> @squareList[i,j].GetSquareValue()</td>
                 }
             </tr>
         }
@@ -30,11 +34,12 @@
     private int gameSizeHeight;
     private int gameSizeWidth;
     private Square[,]? squareList;
-
+    private bool gameInitialised = false;
+    private string flagsText;
 
     private void InitialiseGame()
     {
-
+        gameInitialised = true;
         GM.CreateGame();
 
         gameSizeHeight = GM.GetGameSize()[0];
@@ -55,4 +60,9 @@
     }
 
     private void CellClicked(int column, int row) => GM.RevealSquare(column, row);
+
+    void RightClick(int column, int row)
+    {
+        GM.PlaceFlag(column, row);
+    }
 }

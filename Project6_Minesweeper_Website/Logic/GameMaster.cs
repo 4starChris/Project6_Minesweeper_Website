@@ -9,6 +9,7 @@ namespace Project6_Minesweeper_Website.Logic
         private int gameSizeWidth = 16; 
         private int gameSizeHeight = 16;
         private int numberOfMines = 40;
+        public int numberOfFlagsOnHand = 10;
 
 
         public GameMaster() { }
@@ -104,6 +105,7 @@ namespace Project6_Minesweeper_Website.Logic
         {
             Square square = Squarelist[column, row];
             if (square.revealed) { return; }
+            if (square.flagged) { return; }
             
             square.revealed = true;
             if (!square.clear) { return; }  //mine explodes 
@@ -139,6 +141,15 @@ namespace Project6_Minesweeper_Website.Logic
                 //Check down
                 if (row < gameSizeHeight - 1) { RevealSquare(column, row + 1); }
             }
+        }
+
+        public void PlaceFlag(int column, int row)
+        {
+            Square square = Squarelist[column, row];
+            if (square.revealed) { return; }
+            if (!square.flagged && numberOfFlagsOnHand > 0) { square.flagged = true; numberOfFlagsOnHand--; return; }
+            if (square.flagged) { square.flagged = false; numberOfFlagsOnHand++; }
+            return;
         }
     }
 }

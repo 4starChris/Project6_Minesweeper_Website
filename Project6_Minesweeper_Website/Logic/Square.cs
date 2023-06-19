@@ -7,10 +7,13 @@
 
         public bool revealed { get; set; }
 
+        public bool flagged { get; set; }
+
         public Square() {
             clear = true; 
             nearbyMines = 0;
             revealed = false;
+            flagged = false;
         }
 
         public void AddNearbyMine()
@@ -37,8 +40,10 @@
 
         public string GetSquareValue()
         {
+            if (flagged) { return "F"; }
             if (!revealed) { return ""; }
             if (!clear) { return "B"; }
+            
             else return nearbyMines.ToString();
         }
     }
