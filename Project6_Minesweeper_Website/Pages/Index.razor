@@ -1,8 +1,9 @@
 ﻿@page "/"
 
-@CurrentText
+
 
 <button type="button" @onclick="InitialiseGame">Create Game</button>
+@CurrentText
 
 <div id="GameWindow" @oncontextmenu:preventDefault="true">
     <div>
@@ -30,7 +31,7 @@
 
 @code{
     GameMaster GM = new GameMaster();
-    private string CurrentText = "Hello World";
+    private string CurrentText = "Click the button to create a game. Left click to reveal square. Right click to flag a suspected mine.";
     private int gameSizeHeight;
     private int gameSizeWidth;
     private Square[,]? squareList;
