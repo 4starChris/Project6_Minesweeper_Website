@@ -20,6 +20,7 @@ namespace Project6_Minesweeper_Website.Logic
         {
             Squarelist = new Square[gameSizeHeight, gameSizeWidth];
             lockGame = false;
+            numberOfFlagsOnHand = 40;
             UpdateGameMessage();
             int row = 0;
             int column = 0;
